@@ -1,1 +1,1 @@
-Caesar cipher with encrypt/decrypt, MULTIPLICATIVE cipher, cryptanalysis
+**Caesar cipher** with **encrypt/decrypt**, **MULTIPLICATIVE** cipher, **cryptanalysis**
