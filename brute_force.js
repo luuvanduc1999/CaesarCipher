@@ -19,21 +19,6 @@ function decryptCeasar(cipherText, key)
     
 }
 
-function encryptCeasar(plainText, key)
-{
-    //bảng mã
-    var alphabet=["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]; 
-    pTextChar=plainText.toUpperCase().split(""); //chuyển sang chữ HOA toàn bộ
-    cipherText="";
-    for (var i=0; i<plainText.length; i++) //duyệt tất cả
-        if (pTextChar[i].match("[a-z]|[A-Z]")) //nếu là một chữ cái thì tiến hành mã hóa
-            {
-                pTextChar[i]=alphabet.indexOf(pTextChar[i]); //xác định mã trong bảng mã
-                cipherText+=(alphabet[(pTextChar[i]+key).mod(26)]); //dịch key vị trí và xác định ký tự đó thêm vào cipherText
-            }
-        else    cipherText+=plainText[i]; //nếu là ký tự dấu ( ,;~!?...) thì bỏ qua
-    return (cipherText); //trả về kết quả
-}
 
 function bruteForceCeasar(cipherText)
 {
