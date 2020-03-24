@@ -1,0 +1,65 @@
+Number.prototype.mod = function(n) {
+    return ((this % n) + n) % n;
+}
+
+function decryptCeasar(cipherText, key)
+{
+    var alphabet=["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"];
+    cTextChar=cipherText.toLowerCase().split("");
+    plainText="";
+    for (var i=0; i<cipherText.length; i++)
+        if (cTextChar[i].match("[a-z]|[A-Z]"))
+            {
+                cTextChar[i]=alphabet.indexOf(cTextChar[i]);
+                plainText+=(alphabet[(cTextChar[i]-key).mod(26)]);
+            }
+        else    plainText+=cipherText[i];
+      
+    return (plainText);
+    
+}
+
+
+function freqEngCheck(text)
+{
+    var alphabet=["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"];
+    englishLetterFreq = {'E': 12.70, 'T': 9.06, 'A': 8.17, 'O': 7.51, 'I': 6.97, 'N': 6.75, 'S': 6.33, 'H': 6.09, 'R': 5.99, 'D': 4.25, 'L': 4.03, 'C': 2.78, 'U': 2.76, 'M': 2.41, 'W': 2.36, 'F': 2.23, 'G': 2.02, 'Y': 1.97, 'P': 1.93, 'B': 1.29, 'V': 0.98, 'K': 0.77, 'J': 0.15, 'X': 0.15, 'Q': 0.10, 'Z': 0.07}
+    var freq=new Array(26).fill(0);
+    text= text.replace(/[^a-z|A-Z]/g,"");
+
+    var expectedCharacterCounts=new Array(26).fill(0);
+    for (var i = 0; i < 26; i++) {
+        expectedCharacterCounts[i] = (text.length * (englishLetterFreq[alphabet[i].toUpperCase()] / 100));
+    }
+
+    var characterCounts=new Array(26).fill(0);
+    for (var i = 0; i < text.length; i++) {
+        characterCounts[alphabet.indexOf(text[i])] ++;
+    }
+
+    var fitness=0;
+    for (var i = 0; i < 26; i++) {
+        fitness += Math.pow(characterCounts[i] - expectedCharacterCounts[i], 2) / expectedCharacterCounts[i];
+    }
+
+    return fitness;
+}
+
+
+function freqAnalysisCaesar(cipherText)
+{
+    cTextChar=cipherText.toLowerCase().split("");
+    fitnessMin=Number.MAX_VALUE;
+
+    for (var i=0; i<26; i++)
+    {
+        tempFitness=freqEngCheck(decryptCeasar(cipherText,i));
+        if (tempFitness < fitnessMin) {
+            fitnessMin = tempFitness;
+            shift = i;
+        }
+    }
+    console.log("Best key:", shift);
+    console.log("Plain text:");
+    console.log("%c"+decryptCeasar(cipherText,shift),'background: #222; color: #bada55');
+}
